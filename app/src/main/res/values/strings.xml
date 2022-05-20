@@ -7,7 +7,7 @@
     <string name="register">Đăng ký</string>
     <string name="function">Quản lý</string>
     <string name="howwork">Hướng dẫn sử dụng</string>
-    <string name="create_acc">Tạo <br /> tài khoản</string>
+    <string name="create_acc">Tạo <br />tài khoản</string>
     <string name="enter_fullname">Họ và tên</string>
     <string name="enter_username">Tên tài khoản</string>
     <string name="enter_email">Email</string>
@@ -27,9 +27,9 @@
     <string name="addTable">Thêm bàn ăn</string>
     <string name="tablename">Tên bàn ăn</string>
     <string name="addMenu">Thêm thực đơn</string>
-    <string name="addmenu">Thêm <br /> thực đơn</string>
+    <string name="addmenu">Thêm <br />thực đơn</string>
     <string name="addCategory">Thêm loại</string>
-    <string name="addcategory">Thêm <br /> loại</string>
-    <string name="editcategory">Sửa <br /> loại</string>
+    <string name="addcategory">Thêm <br />loại</string>
+    <string name="editcategory">Sửa <br />loại</string>
     <string name="choseimg">Chọn hình</string>
 </resources>

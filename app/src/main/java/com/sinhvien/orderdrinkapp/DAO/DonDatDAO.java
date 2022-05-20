@@ -57,7 +57,8 @@ public class DonDatDAO {
         return donDatDTOS;
     }
 
-    public List<DonDatDTO> LayDSDonDatNgay(String ngaythang){
+    public List<DonDatDTO>
+    LayDSDonDatNgay(String ngaythang){
         List<DonDatDTO> donDatDTOS = new ArrayList<DonDatDTO>();
         String query = "SELECT * FROM "+CreateDatabase.TBL_DONDAT+" WHERE "+CreateDatabase.TBL_DONDAT_NGAYDAT+" like '"+ngaythang+"'";
         Cursor cursor = database.rawQuery(query,null);

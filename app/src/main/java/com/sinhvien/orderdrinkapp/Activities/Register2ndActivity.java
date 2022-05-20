@@ -92,6 +92,7 @@ public class Register2ndActivity extends AppCompatActivity {
                 long ktra = nhanVienDAO.ThemNhanVien(nhanVienDTO);
                 if(ktra != 0){
                     Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(Register2ndActivity.this,Long.toString(ktra),Toast.LENGTH_SHORT).show();
                     callLoginFromRegister();
                 }else{
                     Toast.makeText(Register2ndActivity.this,getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show();

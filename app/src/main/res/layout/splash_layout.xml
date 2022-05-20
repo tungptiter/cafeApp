@@ -34,7 +34,7 @@
         android:id="@+id/txtPowered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Powered by G2"
+        android:text="Powered by Tung Ptit"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="30dp"/>
 

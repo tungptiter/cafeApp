@@ -259,14 +259,14 @@
                     android:textAllCaps="true"
                     android:layout_centerVertical="true"
                     />
+
                 <TextView
                     android:id="@+id/txt_displayhome_ViewAllStatistic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xem tất cả >"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    />
+                    android:text="Xem tất cả >" />
 
             </RelativeLayout>
 

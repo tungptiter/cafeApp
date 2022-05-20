@@ -32,6 +32,37 @@
         <entry key="..\:/AndroidWorkspace/CafeApp/app/src/main/res/layout/amount_menu_layout.xml" value="0.18854166666666666" />
         <entry key="..\:/AndroidWorkspace/CafeApp/app/src/main/res/layout/custom_layout_displaycategory.xml" value="0.18854166666666666" />
         <entry key="..\:/AndroidWorkspace/CafeApp/app/src/main/res/layout/custom_layout_displaytable.xml" value="0.18854166666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/drawable/corner_border_black.xml" value="0.162" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/addcategory_layout.xml" value="0.1390625" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/addmenu_layout.xml" value="0.18854166666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/addstaff_layout.xml" value="0.22" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/addtable_layout.xml" value="0.25" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/amount_menu_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_displaycategory.xml" value="0.16302083333333334" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_displaymenu.xml" value="0.15534420289855072" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_displaystaff.xml" value="0.1390625" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_displaystatistic.xml" value="0.1390625" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_displaytable.xml" value="0.15534420289855072" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/custom_layout_paymentmenu.xml" value="0.2" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/detailstatistic_layout.xml" value="0.15534420289855072" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displaycategory_layout.xml" value="0.2" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displayhome_layout.xml" value="0.25" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displaymenu_layout.xml" value="0.25" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displaystaff_layout.xml" value="0.2" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displaystatistic_layout.xml" value="0.15" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/displaytable_layout.xml" value="0.25" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/edittable_layout.xml" value="0.15534420289855072" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/home_layout.xml" value="0.18854166666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/login_layout.xml" value="0.2" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/menu_navigation_header.xml" value="0.20416666666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/payment_layout.xml" value="0.21" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/register2nd_layout.xml" value="0.20416666666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/register_layout.xml" value="0.25" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/splash_layout.xml" value="0.15534420289855072" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/layout/welcome_layout.xml" value="0.33" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/menu/edit_context_menu.xml" value="0.18854166666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/menu/item_menu.xml" value="0.18854166666666666" />
+        <entry key="..\:/appAndroid/cafeApp/app/src/main/res/menu/main_menu_navigation.xml" value="0.25" />
       </map>
     </option>
   </component>

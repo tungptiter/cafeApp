@@ -128,16 +128,15 @@
 
         <Button
             android:id="@+id/btn_payment_ThanhToan"
-            android:layout_centerVertical="true"
             android:layout_width="100dp"
-            android:padding="10dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/corner_border_primary"
-            android:text="Thanh toán"
-            android:textSize="20sp"
             android:fontFamily="@font/muli_black"
-            />
+            android:padding="10dp"
+            android:text="Thanh toán"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
