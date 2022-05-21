@@ -13,13 +13,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
 import com.sinhvien.orderdrinkapp.R;
 
 public class LoginActivity extends AppCompatActivity {
     Button BTN_login_DangNhap, BTN_login_DangKy;
     TextInputLayout TXTL_login_TenDN, TXTL_login_MatKhau;
-    NhanVienDAO nhanVienDAO;
+    NhanVienController nhanVienController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         BTN_login_DangNhap = (Button)findViewById(R.id.btn_login_DangNhap);
         BTN_login_DangKy = (Button)findViewById(R.id.btn_login_DangKy);
 
-        nhanVienDAO = new NhanVienDAO(this);    //khởi tạo kết nối csdl
+        nhanVienController = new NhanVienController(this);    //khởi tạo kết nối csdl
 
         BTN_login_DangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,8 +43,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 String tenDN = TXTL_login_TenDN.getEditText().getText().toString();
                 String matKhau = TXTL_login_MatKhau.getEditText().getText().toString();
-                int ktra = nhanVienDAO.KiemTraDN(tenDN,matKhau);
-                int maquyen = nhanVienDAO.LayQuyenNV(ktra);
+                int ktra = nhanVienController.KiemTraDN(tenDN,matKhau);
+                int maquyen = nhanVienController.LayQuyenNV(ktra);
                 if(ktra != 0){
                     // lưu mã quyền vào shareprefer
                     SharedPreferences sharedPreferences = getSharedPreferences("luuquyen", Context.MODE_PRIVATE);

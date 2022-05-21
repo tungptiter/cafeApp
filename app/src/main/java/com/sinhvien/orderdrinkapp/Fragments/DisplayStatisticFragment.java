@@ -5,20 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.sinhvien.orderdrinkapp.Activities.DetailStatisticActivity;
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayStatistic;
-import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
-import com.sinhvien.orderdrinkapp.DTO.DonDatDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.DonDatController;
+import com.sinhvien.orderdrinkapp.MODEL.DonDatModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -26,8 +23,8 @@ import java.util.List;
 public class DisplayStatisticFragment extends Fragment {
 
     ListView lvStatistic;
-    List<DonDatDTO> donDatDTOS;
-    DonDatDAO donDatDAO;
+    List<DonDatModel> donDatModels;
+    DonDatController donDatController;
     AdapterDisplayStatistic adapterDisplayStatistic;
     FragmentManager fragmentManager;
     int madon, manv, maban;
@@ -40,21 +37,21 @@ public class DisplayStatisticFragment extends Fragment {
         setHasOptionsMenu(true);
 
         lvStatistic = (ListView)view.findViewById(R.id.lvStatistic);
-        donDatDAO = new DonDatDAO(getActivity());
+        donDatController = new DonDatController(getActivity());
 
-        donDatDTOS = donDatDAO.LayDSDonDat();
-        adapterDisplayStatistic = new AdapterDisplayStatistic(getActivity(),R.layout.custom_layout_displaystatistic,donDatDTOS);
+        donDatModels = donDatController.LayDSDonDat();
+        adapterDisplayStatistic = new AdapterDisplayStatistic(getActivity(),R.layout.custom_layout_displaystatistic, donDatModels);
         lvStatistic.setAdapter(adapterDisplayStatistic);
         adapterDisplayStatistic.notifyDataSetChanged();
 
         lvStatistic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                madon = donDatDTOS.get(position).getMaDonDat();
-                manv = donDatDTOS.get(position).getMaNV();
-                maban = donDatDTOS.get(position).getMaBan();
-                ngaydat = donDatDTOS.get(position).getNgayDat();
-                tongtien = donDatDTOS.get(position).getTongTien();
+                madon = donDatModels.get(position).getMaDonDat();
+                manv = donDatModels.get(position).getMaNV();
+                maban = donDatModels.get(position).getMaBan();
+                ngaydat = donDatModels.get(position).getNgayDat();
+                tongtien = donDatModels.get(position).getTongTien();
 
                 Intent intent = new Intent(getActivity(), DetailStatisticActivity.class);
                 intent.putExtra("madon",madon);

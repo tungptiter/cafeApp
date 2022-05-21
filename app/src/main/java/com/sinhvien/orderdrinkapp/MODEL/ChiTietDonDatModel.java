@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class ChiTietDonDatDTO {
+public class ChiTietDonDatModel {
 
     int MaDonDat, MaMon, SoLuong;
 

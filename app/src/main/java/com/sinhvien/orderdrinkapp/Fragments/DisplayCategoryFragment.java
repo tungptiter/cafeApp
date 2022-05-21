@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,26 +14,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sinhvien.orderdrinkapp.Activities.AddCategoryActivity;
-import com.sinhvien.orderdrinkapp.Activities.AddMenuActivity;
-import com.sinhvien.orderdrinkapp.Activities.AddStaffActivity;
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayCategory;
-import com.sinhvien.orderdrinkapp.DAO.LoaiMonDAO;
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.LoaiMonController;
+import com.sinhvien.orderdrinkapp.MODEL.LoaiMonModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -43,8 +36,8 @@ import java.util.List;
 public class DisplayCategoryFragment extends Fragment {
 
     GridView gvCategory;
-    List<LoaiMonDTO> loaiMonDTOList;
-    LoaiMonDAO loaiMonDAO;
+    List<LoaiMonModel> loaiMonModelList;
+    LoaiMonController loaiMonController;
     AdapterDisplayCategory adapter;
     FragmentManager fragmentManager;
     int maban;
@@ -93,7 +86,7 @@ public class DisplayCategoryFragment extends Fragment {
 
         fragmentManager = getActivity().getSupportFragmentManager();
 
-        loaiMonDAO = new LoaiMonDAO(getActivity());
+        loaiMonController = new LoaiMonController(getActivity());
         HienThiDSLoai();
 
         Bundle bDataCategory = getArguments();
@@ -107,8 +100,8 @@ public class DisplayCategoryFragment extends Fragment {
         gvCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int maloai = loaiMonDTOList.get(position).getMaLoai();
-                String tenloai = loaiMonDTOList.get(position).getTenLoai();
+                int maloai = loaiMonModelList.get(position).getMaLoai();
+                String tenloai = loaiMonModelList.get(position).getTenLoai();
                 DisplayMenuFragment displayMenuFragment = new DisplayMenuFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("maloai",maloai);
@@ -140,7 +133,8 @@ public class DisplayCategoryFragment extends Fragment {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int vitri = menuInfo.position;
-        int maloai = loaiMonDTOList.get(vitri).getMaLoai();
+        int maloai = loaiMonModelList.get(vitri).getMaLoai();
+//        System.out.println(maquyen);
         switch (id){
             case R.id.itEdit:
                 // check quyền
@@ -157,7 +151,7 @@ public class DisplayCategoryFragment extends Fragment {
             case R.id.itDelete:
                 // check quyền
                 if(maquyen == 1){
-                    boolean ktra = loaiMonDAO.XoaLoaiMon(maloai);
+                    boolean ktra = loaiMonController.XoaLoaiMon(maloai);
                     if(ktra){
                         HienThiDSLoai();
                         Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
@@ -200,8 +194,8 @@ public class DisplayCategoryFragment extends Fragment {
 
     //hiển thị dữ liệu trên gridview
     private void HienThiDSLoai(){
-        loaiMonDTOList = loaiMonDAO.LayDSLoaiMon();
-        adapter = new AdapterDisplayCategory(getActivity(),R.layout.custom_layout_displaycategory,loaiMonDTOList);
+        loaiMonModelList = loaiMonController.LayDSLoaiMon();
+        adapter = new AdapterDisplayCategory(getActivity(),R.layout.custom_layout_displaycategory, loaiMonModelList);
         gvCategory.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

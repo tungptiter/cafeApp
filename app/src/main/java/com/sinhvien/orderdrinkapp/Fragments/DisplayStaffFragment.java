@@ -20,16 +20,13 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sinhvien.orderdrinkapp.Activities.AddStaffActivity;
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
-import com.sinhvien.orderdrinkapp.Activities.RegisterActivity;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayStaff;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -37,8 +34,8 @@ import java.util.List;
 public class DisplayStaffFragment extends Fragment {
 
     GridView gvStaff;
-    NhanVienDAO nhanVienDAO;
-    List<NhanVienDTO> nhanVienDTOS;
+    NhanVienController nhanVienController;
+    List<NhanVienModel> nhanVienModels;
     AdapterDisplayStaff adapterDisplayStaff;
     int maquyen = 0;
     int manvSection = 0;
@@ -81,7 +78,7 @@ public class DisplayStaffFragment extends Fragment {
 
         gvStaff = (GridView)view.findViewById(R.id.gvStaff) ;
 
-        nhanVienDAO = new NhanVienDAO(getActivity());
+        nhanVienController = new NhanVienController(getActivity());
         HienThiDSNV();
 
         registerForContextMenu(gvStaff);
@@ -104,7 +101,7 @@ public class DisplayStaffFragment extends Fragment {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int vitri = menuInfo.position;
-        int manv = nhanVienDTOS.get(vitri).getMANV();
+        int manv = nhanVienModels.get(vitri).getMANV();
 
         switch (id){
             case R.id.itEdit:
@@ -121,7 +118,7 @@ public class DisplayStaffFragment extends Fragment {
 
             case R.id.itDelete:
                 if(maquyen == 1 && manvSection != manv){
-                    boolean ktra = nhanVienDAO.XoaNV(manv);
+                    boolean ktra = nhanVienController.XoaNV(manv);
                     if(ktra){
                         HienThiDSNV();
                         Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful)
@@ -166,8 +163,8 @@ public class DisplayStaffFragment extends Fragment {
     }
 
     private void HienThiDSNV(){
-        nhanVienDTOS = nhanVienDAO.LayDSNV();
-        adapterDisplayStaff = new AdapterDisplayStaff(getActivity(),R.layout.custom_layout_displaystaff,nhanVienDTOS);
+        nhanVienModels = nhanVienController.LayDSNV();
+        adapterDisplayStaff = new AdapterDisplayStaff(getActivity(),R.layout.custom_layout_displaystaff, nhanVienModels);
         gvStaff.setAdapter(adapterDisplayStaff);
         adapterDisplayStaff.notifyDataSetChanged();
     }

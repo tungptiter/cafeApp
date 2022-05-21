@@ -14,8 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.Calendar;
@@ -37,7 +37,7 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
     RadioButton RD_addstaff_Nam,RD_addstaff_Nu,RD_addstaff_Khac,rd_addstaff_QuanLy,rd_addstaff_NhanVien;
     DatePicker DT_addstaff_NgaySinh;
     Button BTN_addstaff_ThemNV;
-    NhanVienDAO nhanVienDAO;
+    NhanVienController nhanVienController;
     String hoTen,tenDN,eMail,sDT,matKhau,gioiTinh,ngaySinh;
     int manv = 0,quyen = 0;
     long ktra = 0;
@@ -67,23 +67,23 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
 
         //endregion
 
-        nhanVienDAO = new NhanVienDAO(this);
+        nhanVienController = new NhanVienController(this);
 
         //region Hiển thị trang sửa nếu được chọn từ context menu sửa
         manv = getIntent().getIntExtra("manv",0);   //lấy manv từ display staff
         if(manv != 0){
             TXT_addstaff_title.setText("Sửa nhân viên");
-            NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(manv);
+            NhanVienModel nhanVienModel = nhanVienController.LayNVTheoMa(manv);
 
             //Hiển thị thông tin từ csdl
-            TXTL_addstaff_HoVaTen.getEditText().setText(nhanVienDTO.getHOTENNV());
-            TXTL_addstaff_TenDN.getEditText().setText(nhanVienDTO.getTENDN());
-            TXTL_addstaff_Email.getEditText().setText(nhanVienDTO.getEMAIL());
-            TXTL_addstaff_SDT.getEditText().setText(nhanVienDTO.getSDT());
-            TXTL_addstaff_MatKhau.getEditText().setText(nhanVienDTO.getMATKHAU());
+            TXTL_addstaff_HoVaTen.getEditText().setText(nhanVienModel.getHOTENNV());
+            TXTL_addstaff_TenDN.getEditText().setText(nhanVienModel.getTENDN());
+            TXTL_addstaff_Email.getEditText().setText(nhanVienModel.getEMAIL());
+            TXTL_addstaff_SDT.getEditText().setText(nhanVienModel.getSDT());
+            TXTL_addstaff_MatKhau.getEditText().setText(nhanVienModel.getMATKHAU());
 
             //Hiển thị giới tính từ csdl
-            String gioitinh = nhanVienDTO.getGIOITINH();
+            String gioitinh = nhanVienModel.getGIOITINH();
             if(gioitinh.equals("Nam")){
                 RD_addstaff_Nam.setChecked(true);
             }else if (gioitinh.equals("Nữ")){
@@ -92,14 +92,14 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
                 RD_addstaff_Khac.setChecked(true);
             }
 
-            if(nhanVienDTO.getMAQUYEN() == 1){
+            if(nhanVienModel.getMAQUYEN() == 1){
                 rd_addstaff_QuanLy.setChecked(true);
             }else {
                 rd_addstaff_NhanVien.setChecked(true);
             }
 
             //Hiển thị ngày sinh từ csdl
-            String date = nhanVienDTO.getNGAYSINH();
+            String date = nhanVienModel.getNGAYSINH();
             String[] items = date.split("/");
             int day = Integer.parseInt(items[0]);
             int month = Integer.parseInt(items[1]) - 1;
@@ -144,21 +144,21 @@ public class AddStaffActivity extends AppCompatActivity implements View.OnClickL
                         +"/"+DT_addstaff_NgaySinh.getYear();
 
                 //truyền dữ liệu vào obj nhanvienDTO
-                NhanVienDTO nhanVienDTO = new NhanVienDTO();
-                nhanVienDTO.setHOTENNV(hoTen);
-                nhanVienDTO.setTENDN(tenDN);
-                nhanVienDTO.setEMAIL(eMail);
-                nhanVienDTO.setSDT(sDT);
-                nhanVienDTO.setMATKHAU(matKhau);
-                nhanVienDTO.setGIOITINH(gioiTinh);
-                nhanVienDTO.setNGAYSINH(ngaySinh);
-                nhanVienDTO.setMAQUYEN(quyen);
+                NhanVienModel nhanVienModel = new NhanVienModel();
+                nhanVienModel.setHOTENNV(hoTen);
+                nhanVienModel.setTENDN(tenDN);
+                nhanVienModel.setEMAIL(eMail);
+                nhanVienModel.setSDT(sDT);
+                nhanVienModel.setMATKHAU(matKhau);
+                nhanVienModel.setGIOITINH(gioiTinh);
+                nhanVienModel.setNGAYSINH(ngaySinh);
+                nhanVienModel.setMAQUYEN(quyen);
 
                 if(manv != 0){
-                    ktra = nhanVienDAO.SuaNhanVien(nhanVienDTO,manv);
+                    ktra = nhanVienController.SuaNhanVien(nhanVienModel,manv);
                     chucnang = "sua";
                 }else {
-                    ktra = nhanVienDAO.ThemNhanVien(nhanVienDTO);
+                    ktra = nhanVienController.ThemNhanVien(nhanVienModel);
                     chucnang = "themnv";
                 }
                 //Thêm, sửa nv dựa theo obj nhanvienDTO

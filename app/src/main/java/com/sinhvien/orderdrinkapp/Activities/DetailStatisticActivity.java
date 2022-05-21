@@ -10,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayPayment;
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-import com.sinhvien.orderdrinkapp.DAO.ThanhToanDAO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
-import com.sinhvien.orderdrinkapp.DTO.ThanhToanDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.ThanhToanController;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
+import com.sinhvien.orderdrinkapp.MODEL.ThanhToanModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -27,10 +27,10 @@ public class DetailStatisticActivity extends AppCompatActivity {
     GridView gvDetailStatistic;
     int madon, manv, maban;
     String ngaydat, tongtien;
-    NhanVienDAO nhanVienDAO;
-    BanAnDAO banAnDAO;
-    List<ThanhToanDTO> thanhToanDTOList;
-    ThanhToanDAO thanhToanDAO;
+    NhanVienController nhanVienController;
+    BanAnController banAnController;
+    List<ThanhToanModel> thanhToanModelList;
+    ThanhToanController thanhToanController;
     AdapterDisplayPayment adapterDisplayPayment;
 
     @Override
@@ -57,9 +57,9 @@ public class DetailStatisticActivity extends AppCompatActivity {
         //endregion
 
         //khởi tạo lớp dao mở kết nối csdl
-        nhanVienDAO = new NhanVienDAO(this);
-        banAnDAO = new BanAnDAO(this);
-        thanhToanDAO = new ThanhToanDAO(this);
+        nhanVienController = new NhanVienController(this);
+        banAnController = new BanAnController(this);
+        thanhToanController = new ThanhToanController(this);
 
         //chỉ hiển thị nếu lấy đc mã đơn đc chọn
         if (madon !=0){
@@ -67,9 +67,9 @@ public class DetailStatisticActivity extends AppCompatActivity {
             txt_detailstatistic_NgayDat.setText(ngaydat);
             txt_detailstatistic_TongTien.setText(tongtien+" VNĐ");
 
-            NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(manv);
-            txt_detailstatistic_TenNV.setText(nhanVienDTO.getHOTENNV());
-            txt_detailstatistic_TenBan.setText(banAnDAO.LayTenBanTheoMa(maban));
+            NhanVienModel nhanVienModel = nhanVienController.LayNVTheoMa(manv);
+            txt_detailstatistic_TenNV.setText(nhanVienModel.getHOTENNV());
+            txt_detailstatistic_TenBan.setText(banAnController.LayTenBanTheoMa(maban));
 
             HienThiDSCTDD();
         }
@@ -84,8 +84,8 @@ public class DetailStatisticActivity extends AppCompatActivity {
     }
 
     private void HienThiDSCTDD(){
-        thanhToanDTOList = thanhToanDAO.LayDSMonTheoMaDon(madon);
-        adapterDisplayPayment = new AdapterDisplayPayment(this,R.layout.custom_layout_paymentmenu,thanhToanDTOList);
+        thanhToanModelList = thanhToanController.LayDSMonTheoMaDon(madon);
+        adapterDisplayPayment = new AdapterDisplayPayment(this,R.layout.custom_layout_paymentmenu, thanhToanModelList);
         gvDetailStatistic.setAdapter(adapterDisplayPayment);
         adapterDisplayPayment.notifyDataSetChanged();
     }

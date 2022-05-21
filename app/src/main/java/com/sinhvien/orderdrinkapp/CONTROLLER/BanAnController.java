@@ -1,19 +1,19 @@
-package com.sinhvien.orderdrinkapp.DAO;
+package com.sinhvien.orderdrinkapp.CONTROLLER;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sinhvien.orderdrinkapp.DTO.BanAnDTO;
+import com.sinhvien.orderdrinkapp.MODEL.BanAnModel;
 import com.sinhvien.orderdrinkapp.Database.CreateDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BanAnDAO {
+public class BanAnController {
     SQLiteDatabase database;
-    public BanAnDAO(Context context){
+    public BanAnController(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }
@@ -56,20 +56,20 @@ public class BanAnDAO {
     }
 
     //Hàm lấy ds các bàn ăn đổ vào gridview
-    public List<BanAnDTO> LayTatCaBanAn(){
-        List<BanAnDTO> banAnDTOList = new ArrayList<BanAnDTO>();
+    public List<BanAnModel> LayTatCaBanAn(){
+        List<BanAnModel> banAnModelList = new ArrayList<BanAnModel>();
         String query = "SELECT * FROM " +CreateDatabase.TBL_BAN;
         Cursor cursor = database.rawQuery(query,null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()){
-            BanAnDTO banAnDTO = new BanAnDTO();
-            banAnDTO.setMaBan(cursor.getInt(cursor.getColumnIndex(CreateDatabase.TBL_BAN_MABAN)));
-            banAnDTO.setTenBan(cursor.getString(cursor.getColumnIndex(CreateDatabase.TBL_BAN_TENBAN)));
+            BanAnModel banAnModel = new BanAnModel();
+            banAnModel.setMaBan(cursor.getInt(cursor.getColumnIndex(CreateDatabase.TBL_BAN_MABAN)));
+            banAnModel.setTenBan(cursor.getString(cursor.getColumnIndex(CreateDatabase.TBL_BAN_TENBAN)));
 
-            banAnDTOList.add(banAnDTO);
+            banAnModelList.add(banAnModel);
             cursor.moveToNext();
         }
-        return banAnDTOList;
+        return banAnModelList;
     }
 
     public String LayTinhTrangBanTheoMa(int maban){

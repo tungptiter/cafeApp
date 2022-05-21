@@ -1,20 +1,14 @@
 package com.sinhvien.orderdrinkapp.Fragments;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,13 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.navigation.NavigationView;
 import com.sinhvien.orderdrinkapp.Activities.AddCategoryActivity;
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
-import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayCategory;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterRecycleViewCategory;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterRecycleViewStatistic;
-import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
-import com.sinhvien.orderdrinkapp.DAO.LoaiMonDAO;
-import com.sinhvien.orderdrinkapp.DTO.DonDatDTO;
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.DonDatController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.LoaiMonController;
+import com.sinhvien.orderdrinkapp.MODEL.DonDatModel;
+import com.sinhvien.orderdrinkapp.MODEL.LoaiMonModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.text.SimpleDateFormat;
@@ -40,10 +33,10 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
     RecyclerView rcv_displayhome_LoaiMon, rcv_displayhome_DonTrongNgay;
     RelativeLayout layout_displayhome_ThongKe,layout_displayhome_XemBan, layout_displayhome_XemMenu, layout_displayhome_XemNV;
     TextView txt_displayhome_ViewAllCategory, txt_displayhome_ViewAllStatistic;
-    LoaiMonDAO loaiMonDAO;
-    DonDatDAO donDatDAO;
-    List<LoaiMonDTO> loaiMonDTOList;
-    List<DonDatDTO> donDatDTOS;
+    LoaiMonController loaiMonController;
+    DonDatController donDatController;
+    List<LoaiMonModel> loaiMonModelList;
+    List<DonDatModel> donDatModels;
     AdapterRecycleViewCategory adapterRecycleViewCategory;
     AdapterRecycleViewStatistic adapterRecycleViewStatistic;
 
@@ -65,8 +58,8 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
         //endregion
 
         //khởi tạo kết nối
-        loaiMonDAO = new LoaiMonDAO(getActivity());
-        donDatDAO = new DonDatDAO(getActivity());
+        loaiMonController = new LoaiMonController(getActivity());
+        donDatController = new DonDatController(getActivity());
 
         HienThiDSLoai();
         HienThiDonTrongNgay();
@@ -84,8 +77,8 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
     private void HienThiDSLoai(){
         rcv_displayhome_LoaiMon.setHasFixedSize(true);
         rcv_displayhome_LoaiMon.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
-        loaiMonDTOList = loaiMonDAO.LayDSLoaiMon();
-        adapterRecycleViewCategory = new AdapterRecycleViewCategory(getActivity(),R.layout.custom_layout_displaycategory,loaiMonDTOList);
+        loaiMonModelList = loaiMonController.LayDSLoaiMon();
+        adapterRecycleViewCategory = new AdapterRecycleViewCategory(getActivity(),R.layout.custom_layout_displaycategory, loaiMonModelList);
         rcv_displayhome_LoaiMon.setAdapter(adapterRecycleViewCategory);
         adapterRecycleViewCategory.notifyDataSetChanged();
     }
@@ -97,8 +90,8 @@ public class DisplayHomeFragment extends Fragment implements View.OnClickListene
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String ngaydat= dateFormat.format(calendar.getTime());
 
-        donDatDTOS = donDatDAO.LayDSDonDatNgay(ngaydat);
-        adapterRecycleViewStatistic = new AdapterRecycleViewStatistic(getActivity(),R.layout.custom_layout_displaystatistic,donDatDTOS);
+        donDatModels = donDatController.LayDSDonDatNgay(ngaydat);
+        adapterRecycleViewStatistic = new AdapterRecycleViewStatistic(getActivity(),R.layout.custom_layout_displaystatistic, donDatModels);
         rcv_displayhome_DonTrongNgay.setAdapter(adapterRecycleViewStatistic);
         adapterRecycleViewCategory.notifyDataSetChanged();
     }

@@ -20,16 +20,14 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sinhvien.orderdrinkapp.Activities.AddTableActivity;
 import com.sinhvien.orderdrinkapp.Activities.EditTableActivity;
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
 import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayTable;
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DTO.BanAnDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.MODEL.BanAnModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -37,8 +35,8 @@ import java.util.List;
 public class DisplayTableFragment extends Fragment {
 
     GridView GVDisplayTable;
-    List<BanAnDTO> banAnDTOList;
-    BanAnDAO banAnDAO;
+    List<BanAnModel> banAnModelList;
+    BanAnController banAnController;
     AdapterDisplayTable adapterDisplayTable;
 
     int maquyen = 0;
@@ -86,10 +84,10 @@ public class DisplayTableFragment extends Fragment {
         ((HomeActivity)getActivity()).getSupportActionBar().setTitle("Quản lý bàn");
 
         GVDisplayTable = (GridView)view.findViewById(R.id.gvDisplayTable);
-        banAnDAO = new BanAnDAO(getActivity());
+        banAnController = new BanAnController(getActivity());
         // lấy file share mã quyền
         sharedPreferences = getActivity().getSharedPreferences("luuquyen", Context.MODE_PRIVATE);
-        maquyen = sharedPreferences.getInt("maquyen",0);
+        maquyen = sharedPreferences.getInt("maquyen",0); // 0 là nguoi quan ly
         HienThiDSBan();
 
         registerForContextMenu(GVDisplayTable);
@@ -109,7 +107,7 @@ public class DisplayTableFragment extends Fragment {
         int id = item.getItemId();
         AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int vitri = menuInfo.position;
-        int maban = banAnDTOList.get(vitri).getMaBan();
+        int maban = banAnModelList.get(vitri).getMaBan();
         switch(id){
             // check quyen
             case R.id.itEdit:
@@ -126,7 +124,7 @@ public class DisplayTableFragment extends Fragment {
             case R.id.itDelete:
                 // check quyen
                 if(maquyen == 1){
-                    boolean ktraxoa = banAnDAO.XoaBanTheoMa(maban);
+                    boolean ktraxoa = banAnController.XoaBanTheoMa(maban);
                     if(ktraxoa){
                         HienThiDSBan();
                         Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.delete_sucessful),Toast.LENGTH_SHORT).show();
@@ -171,8 +169,8 @@ public class DisplayTableFragment extends Fragment {
     }
 
     private void HienThiDSBan(){
-        banAnDTOList = banAnDAO.LayTatCaBanAn();
-        adapterDisplayTable = new AdapterDisplayTable(getActivity(),R.layout.custom_layout_displaytable,banAnDTOList);
+        banAnModelList = banAnController.LayTatCaBanAn();
+        adapterDisplayTable = new AdapterDisplayTable(getActivity(),R.layout.custom_layout_displaytable, banAnModelList);
         GVDisplayTable.setAdapter(adapterDisplayTable);
         adapterDisplayTable.notifyDataSetChanged();
     }

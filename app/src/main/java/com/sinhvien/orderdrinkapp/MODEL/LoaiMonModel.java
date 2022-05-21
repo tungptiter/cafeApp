@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class LoaiMonDTO {
+public class LoaiMonModel {
 
     int MaLoai;
     String TenLoai;

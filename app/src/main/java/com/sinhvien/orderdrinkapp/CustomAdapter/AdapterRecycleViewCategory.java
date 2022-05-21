@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
+import com.sinhvien.orderdrinkapp.MODEL.LoaiMonModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -21,12 +21,12 @@ public class AdapterRecycleViewCategory extends RecyclerView.Adapter<AdapterRecy
 
     Context context;
     int layout;
-    List<LoaiMonDTO> loaiMonDTOList;
+    List<LoaiMonModel> loaiMonModelList;
 
-    public AdapterRecycleViewCategory(Context context,int layout, List<LoaiMonDTO> loaiMonDTOList){
+    public AdapterRecycleViewCategory(Context context,int layout, List<LoaiMonModel> loaiMonModelList){
         this.context = context;
         this.layout = layout;
-        this.loaiMonDTOList = loaiMonDTOList;
+        this.loaiMonModelList = loaiMonModelList;
     }
 
     @Override
@@ -37,16 +37,16 @@ public class AdapterRecycleViewCategory extends RecyclerView.Adapter<AdapterRecy
 
     @Override
     public void onBindViewHolder(AdapterRecycleViewCategory.ViewHolder holder, int position) {
-        LoaiMonDTO loaiMonDTO = loaiMonDTOList.get(position);
-        holder.txt_customcategory_TenLoai.setText(loaiMonDTO.getTenLoai());
-        byte[] categoryimage = loaiMonDTO.getHinhAnh();
+        LoaiMonModel loaiMonModel = loaiMonModelList.get(position);
+        holder.txt_customcategory_TenLoai.setText(loaiMonModel.getTenLoai());
+        byte[] categoryimage = loaiMonModel.getHinhAnh();
         Bitmap bitmap = BitmapFactory.decodeByteArray(categoryimage,0,categoryimage.length);
         holder.img_customcategory_HinhLoai.setImageBitmap(bitmap);
     }
 
     @Override
     public int getItemCount() {
-        return loaiMonDTOList.size();
+        return loaiMonModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

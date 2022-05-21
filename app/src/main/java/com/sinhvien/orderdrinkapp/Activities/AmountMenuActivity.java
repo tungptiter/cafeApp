@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DAO.ChiTietDonDatDAO;
-import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
-import com.sinhvien.orderdrinkapp.DTO.ChiTietDonDatDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.ChiTietDonDatController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.DonDatController;
+import com.sinhvien.orderdrinkapp.MODEL.ChiTietDonDatModel;
 import com.sinhvien.orderdrinkapp.R;
 
 public class AmountMenuActivity extends AppCompatActivity {
@@ -20,9 +20,9 @@ public class AmountMenuActivity extends AppCompatActivity {
     TextInputLayout TXTL_amountmenu_SoLuong;
     Button BTN_amountmenu_DongY;
     int maban, mamon;
-    DonDatDAO donDatDAO;
-    BanAnDAO banAnDAO;
-    ChiTietDonDatDAO chiTietDonDatDAO;
+    DonDatController donDatController;
+    BanAnController banAnController;
+    ChiTietDonDatController chiTietDonDatController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +34,9 @@ public class AmountMenuActivity extends AppCompatActivity {
         BTN_amountmenu_DongY = (Button)findViewById(R.id.btn_amountmenu_DongY);
 
         //khởi tạo kết nối csdl
-        donDatDAO = new DonDatDAO(this);
-        banAnDAO = new BanAnDAO(this);
-        chiTietDonDatDAO = new ChiTietDonDatDAO(this);
+        donDatController = new DonDatController(this);
+        banAnController = new BanAnController(this);
+        chiTietDonDatController = new ChiTietDonDatController(this);
 
         //Lấy thông tin từ bàn được chọn
         Intent intent = getIntent();
@@ -50,21 +50,21 @@ public class AmountMenuActivity extends AppCompatActivity {
                     return;
                 }
 
-                int madondat = (int) donDatDAO.LayMaDonTheoMaBan(maban,"false");
-                banAnDAO.CapNhatTinhTrangBan(maban,"true");
-                boolean ktra = chiTietDonDatDAO.KiemTraMonTonTai(madondat,mamon);
+                int madondat = (int) donDatController.LayMaDonTheoMaBan(maban,"false");
+                banAnController.CapNhatTinhTrangBan(maban,"true");
+                boolean ktra = chiTietDonDatController.KiemTraMonTonTai(madondat,mamon);
                 if(ktra){
                     //update số lượng món đã chọn
-                    int sluongcu = chiTietDonDatDAO.LaySLMonTheoMaDon(madondat,mamon);
+                    int sluongcu = chiTietDonDatController.LaySLMonTheoMaDon(madondat,mamon);
                     int sluongmoi = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
                     int tongsl = sluongcu + sluongmoi;
 
-                    ChiTietDonDatDTO chiTietDonDatDTO = new ChiTietDonDatDTO();
-                    chiTietDonDatDTO.setMaMon(mamon);
-                    chiTietDonDatDTO.setMaDonDat(madondat);
-                    chiTietDonDatDTO.setSoLuong(tongsl);
+                    ChiTietDonDatModel chiTietDonDatModel = new ChiTietDonDatModel();
+                    chiTietDonDatModel.setMaMon(mamon);
+                    chiTietDonDatModel.setMaDonDat(madondat);
+                    chiTietDonDatModel.setSoLuong(tongsl);
 
-                    boolean ktracapnhat = chiTietDonDatDAO.CapNhatSL(chiTietDonDatDTO);
+                    boolean ktracapnhat = chiTietDonDatController.CapNhatSL(chiTietDonDatModel);
                     if(ktracapnhat){
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
                         finish();
@@ -74,12 +74,12 @@ public class AmountMenuActivity extends AppCompatActivity {
                 }else {
                     //thêm số lượng món nếu chưa chọn món này
                     int sluong = Integer.parseInt(TXTL_amountmenu_SoLuong.getEditText().getText().toString());
-                    ChiTietDonDatDTO chiTietDonDatDTO = new ChiTietDonDatDTO();
-                    chiTietDonDatDTO.setMaMon(mamon);
-                    chiTietDonDatDTO.setMaDonDat(madondat);
-                    chiTietDonDatDTO.setSoLuong(sluong);
+                    ChiTietDonDatModel chiTietDonDatModel = new ChiTietDonDatModel();
+                    chiTietDonDatModel.setMaMon(mamon);
+                    chiTietDonDatModel.setMaDonDat(madondat);
+                    chiTietDonDatModel.setSoLuong(sluong);
 
-                    boolean ktracapnhat = chiTietDonDatDAO.ThemChiTietDonDat(chiTietDonDatDTO);
+                    boolean ktracapnhat = chiTietDonDatController.ThemChiTietDonDat(chiTietDonDatModel);
                     if(ktracapnhat){
                         Toast.makeText(getApplicationContext(),getResources().getString(R.string.add_sucessful),Toast.LENGTH_SHORT).show();
                     }else {

@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class BanAnDTO {
+public class BanAnModel {
 
     int MaBan;
     String TenBan;
@@ -30,4 +30,5 @@ public class BanAnDTO {
     public void setDuocChon(boolean duocChon) {
         DuocChon = duocChon;
     }
+
 }

@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class DonDatDTO {
+public class DonDatModel {
 
     int MaDonDat,MaBan ,MaNV;
     String TinhTrang,NgayDat,TongTien;

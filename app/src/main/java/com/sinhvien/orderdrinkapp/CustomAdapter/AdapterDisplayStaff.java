@@ -1,7 +1,6 @@
 package com.sinhvien.orderdrinkapp.CustomAdapter;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sinhvien.orderdrinkapp.DAO.QuyenDAO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.QuyenController;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -19,30 +18,30 @@ public class AdapterDisplayStaff extends BaseAdapter {
 
     Context context;
     int layout;
-    List<NhanVienDTO> nhanVienDTOS;
+    List<NhanVienModel> nhanVienModels;
     ViewHolder viewHolder;
-    QuyenDAO quyenDAO;
+    QuyenController quyenController;
 
-    public AdapterDisplayStaff(Context context, int layout, List<NhanVienDTO> nhanVienDTOS){
+    public AdapterDisplayStaff(Context context, int layout, List<NhanVienModel> nhanVienModels){
         this.context = context;
         this.layout = layout;
-        this.nhanVienDTOS = nhanVienDTOS;
-        quyenDAO = new QuyenDAO(context);
+        this.nhanVienModels = nhanVienModels;
+        quyenController = new QuyenController(context);
     }
 
     @Override
     public int getCount() {
-        return nhanVienDTOS.size();
+        return nhanVienModels.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return nhanVienDTOS.get(position);
+        return nhanVienModels.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return nhanVienDTOS.get(position).getMANV();
+        return nhanVienModels.get(position).getMANV();
     }
 
     @Override
@@ -63,12 +62,12 @@ public class AdapterDisplayStaff extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        NhanVienDTO nhanVienDTO = nhanVienDTOS.get(position);
+        NhanVienModel nhanVienModel = nhanVienModels.get(position);
 
-        viewHolder.txt_customstaff_TenNV.setText(nhanVienDTO.getHOTENNV());
-        viewHolder.txt_customstaff_TenQuyen.setText(quyenDAO.LayTenQuyenTheoMa(nhanVienDTO.getMAQUYEN()));
-        viewHolder.txt_customstaff_SDT.setText(nhanVienDTO.getSDT());
-        viewHolder.txt_customstaff_Email.setText(nhanVienDTO.getEMAIL());
+        viewHolder.txt_customstaff_TenNV.setText(nhanVienModel.getHOTENNV());
+        viewHolder.txt_customstaff_TenQuyen.setText(quyenController.LayTenQuyenTheoMa(nhanVienModel.getMAQUYEN()));
+        viewHolder.txt_customstaff_SDT.setText(nhanVienModel.getSDT());
+        viewHolder.txt_customstaff_Email.setText(nhanVienModel.getEMAIL());
 
         return view;
     }

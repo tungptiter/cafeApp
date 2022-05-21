@@ -1,20 +1,16 @@
-package com.sinhvien.orderdrinkapp.DAO;
+package com.sinhvien.orderdrinkapp.CONTROLLER;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sinhvien.orderdrinkapp.DTO.QuyenDTO;
 import com.sinhvien.orderdrinkapp.Database.CreateDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class QuyenDAO {
+public class QuyenController {
 
     SQLiteDatabase database;
-    public QuyenDAO(Context context){
+    public QuyenController(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }

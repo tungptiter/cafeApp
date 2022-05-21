@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.sinhvien.orderdrinkapp.DTO.ThanhToanDTO;
+import com.sinhvien.orderdrinkapp.MODEL.ThanhToanModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.util.List;
@@ -20,23 +20,23 @@ public class AdapterDisplayPayment extends BaseAdapter {
 
     Context context;
     int layout;
-    List<ThanhToanDTO> thanhToanDTOList;
+    List<ThanhToanModel> thanhToanModelList;
     ViewHolder viewHolder;
 
-    public AdapterDisplayPayment(Context context, int layout, List<ThanhToanDTO> thanhToanDTOList){
+    public AdapterDisplayPayment(Context context, int layout, List<ThanhToanModel> thanhToanModelList){
         this.context = context;
         this.layout = layout;
-        this.thanhToanDTOList = thanhToanDTOList;
+        this.thanhToanModelList = thanhToanModelList;
     }
 
     @Override
     public int getCount() {
-        return thanhToanDTOList.size();
+        return thanhToanModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return thanhToanDTOList.get(position);
+        return thanhToanModelList.get(position);
     }
 
     @Override
@@ -61,13 +61,13 @@ public class AdapterDisplayPayment extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        ThanhToanDTO thanhToanDTO = thanhToanDTOList.get(position);
+        ThanhToanModel thanhToanModel = thanhToanModelList.get(position);
 
-        viewHolder.txt_custompayment_TenMon.setText(thanhToanDTO.getTenMon());
-        viewHolder.txt_custompayment_SoLuong.setText(String.valueOf(thanhToanDTO.getSoLuong()));
-        viewHolder.txt_custompayment_GiaTien.setText(String.valueOf(thanhToanDTO.getGiaTien())+" đ");
+        viewHolder.txt_custompayment_TenMon.setText(thanhToanModel.getTenMon());
+        viewHolder.txt_custompayment_SoLuong.setText(String.valueOf(thanhToanModel.getSoLuong()));
+        viewHolder.txt_custompayment_GiaTien.setText(String.valueOf(thanhToanModel.getGiaTien())+" đ");
 
-        byte[] paymentimg = thanhToanDTO.getHinhAnh();
+        byte[] paymentimg = thanhToanModel.getHinhAnh();
         Bitmap bitmap = BitmapFactory.decodeByteArray(paymentimg,0,paymentimg.length);
         viewHolder.img_custompayment_HinhMon.setImageBitmap(bitmap);
 

@@ -1,6 +1,5 @@
 package com.sinhvien.orderdrinkapp.CustomAdapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,22 +11,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sinhvien.orderdrinkapp.Activities.HomeActivity;
 import com.sinhvien.orderdrinkapp.Activities.PaymentActivity;
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DAO.DonDatDAO;
-import com.sinhvien.orderdrinkapp.DTO.BanAnDTO;
-import com.sinhvien.orderdrinkapp.DTO.DonDatDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.DonDatController;
+import com.sinhvien.orderdrinkapp.MODEL.BanAnModel;
+import com.sinhvien.orderdrinkapp.MODEL.DonDatModel;
 import com.sinhvien.orderdrinkapp.Fragments.DisplayCategoryFragment;
-import com.sinhvien.orderdrinkapp.Fragments.DisplayMenuFragment;
-import com.sinhvien.orderdrinkapp.Fragments.DisplayTableFragment;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.text.SimpleDateFormat;
@@ -38,34 +31,34 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
 
     Context context;
     int layout;
-    List<BanAnDTO> banAnDTOList;
+    List<BanAnModel> banAnModelList;
     ViewHolder viewHolder;
-    BanAnDAO banAnDAO;
-    DonDatDAO donDatDAO;
+    BanAnController banAnController;
+    DonDatController donDatController;
     FragmentManager fragmentManager;
 
-    public AdapterDisplayTable(Context context, int layout, List<BanAnDTO> banAnDTOList){
+    public AdapterDisplayTable(Context context, int layout, List<BanAnModel> banAnModelList){
         this.context = context;
         this.layout = layout;
-        this.banAnDTOList = banAnDTOList;
-        banAnDAO = new BanAnDAO(context);
-        donDatDAO = new DonDatDAO(context);
+        this.banAnModelList = banAnModelList;
+        banAnController = new BanAnController(context);
+        donDatController = new DonDatController(context);
         fragmentManager = ((HomeActivity)context).getSupportFragmentManager();
     }
 
     @Override
     public int getCount() {
-        return banAnDTOList.size();
+        return banAnModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return banAnDTOList.get(position);
+        return banAnModelList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return banAnDTOList.get(position).getMaBan();
+        return banAnModelList.get(position).getMaBan();
     }
 
     @Override
@@ -87,15 +80,15 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if(banAnDTOList.get(position).isDuocChon()){
+        if(banAnModelList.get(position).isDuocChon()){
             HienThiButton();
         }else {
             AnButton();
         }
 
-        BanAnDTO banAnDTO = banAnDTOList.get(position);
+        BanAnModel banAnModel = banAnModelList.get(position);
 
-        String kttinhtrang = banAnDAO.LayTinhTrangBanTheoMa(banAnDTO.getMaBan());
+        String kttinhtrang = banAnController.LayTinhTrangBanTheoMa(banAnModel.getMaBan());
         //đổi hình theo tình trạng
         if(kttinhtrang.equals("true")){
             viewHolder.imgBanAn.setImageResource(R.drawable.ic_baseline_airline_seat_legroom_normal_40);
@@ -103,7 +96,7 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
             viewHolder.imgBanAn.setImageResource(R.drawable.ic_baseline_event_seat_40);
         }
 
-        viewHolder.txtTenBanAn.setText(banAnDTO.getTenBan());
+        viewHolder.txtTenBanAn.setText(banAnModel.getTenBan());
         viewHolder.imgBanAn.setTag(position);
 
         //sự kiện click
@@ -122,8 +115,8 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
 
         int vitri1 = (int) viewHolder.imgBanAn.getTag();
 
-        int maban = banAnDTOList.get(vitri1).getMaBan();
-        String tenban = banAnDTOList.get(vitri1).getTenBan();
+        int maban = banAnModelList.get(vitri1).getMaBan();
+        String tenban = banAnModelList.get(vitri1).getTenBan();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String ngaydat= dateFormat.format(calendar.getTime());
@@ -131,29 +124,35 @@ public class AdapterDisplayTable extends BaseAdapter implements View.OnClickList
         switch (id){
             case R.id.img_customtable_BanAn:
                 int vitri = (int)v.getTag();
-                banAnDTOList.get(vitri).setDuocChon(true);
+                System.out.println(vitri);
+                banAnModelList.get(vitri).setDuocChon(true);
                 HienThiButton();
                 break;
 
             case R.id.img_customtable_AnNut:
+
+//                System.out.println(vitri1);
+//                banAnModelList.get(vitri1).setDuocChon(false);
+//                System.out.println(banAnModelList.get(vitri1).isDuocChon());
+//                viewHolder.imgBanAn.setImageResource(R.drawable.ic_baseline_event_seat_40);
                 AnButton();
                 break;
 
             case R.id.img_customtable_GoiMon:
                 Intent getIHome = ((HomeActivity)context).getIntent();
                 int manv = getIHome.getIntExtra("manv",0);
-                String tinhtrang = banAnDAO.LayTinhTrangBanTheoMa(maban);
+                String tinhtrang = banAnController.LayTinhTrangBanTheoMa(maban);
 
                 if(tinhtrang.equals("false")){
                     //Thêm bảng gọi món và update tình trạng bàn
-                    DonDatDTO donDatDTO = new DonDatDTO();
-                    donDatDTO.setMaBan(maban);
-                    donDatDTO.setMaNV(manv);
-                    donDatDTO.setNgayDat(ngaydat);
-                    donDatDTO.setTinhTrang("false");
-                    donDatDTO.setTongTien("0");
+                    DonDatModel donDatModel = new DonDatModel();
+                    donDatModel.setMaBan(maban);
+                    donDatModel.setMaNV(manv);
+                    donDatModel.setNgayDat(ngaydat);
+                    donDatModel.setTinhTrang("false");
+                    donDatModel.setTongTien("0");
 
-                    long ktra = donDatDAO.ThemDonDat(donDatDTO);
+                    long ktra = donDatController.ThemDonDat(donDatModel);
 //                    banAnDAO.CapNhatTinhTrangBan(maban,"true");
                     if(ktra == 0){ Toast.makeText(context,context.getResources().getString(R.string.add_failed),Toast.LENGTH_SHORT).show(); }
                 }

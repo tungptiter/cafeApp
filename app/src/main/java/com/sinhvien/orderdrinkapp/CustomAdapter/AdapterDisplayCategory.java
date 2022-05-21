@@ -1,11 +1,8 @@
 package com.sinhvien.orderdrinkapp.CustomAdapter;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,43 +10,38 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sinhvien.orderdrinkapp.DAO.LoaiMonDAO;
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
+import com.sinhvien.orderdrinkapp.MODEL.LoaiMonModel;
 import com.sinhvien.orderdrinkapp.R;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
 import java.util.List;
 
 public class AdapterDisplayCategory extends BaseAdapter {
 
     Context context;
     int layout;
-    List<LoaiMonDTO> loaiMonDTOList ;
+    List<LoaiMonModel> loaiMonModelList;
     ViewHolder viewHolder;
 
     //constructor
-    public AdapterDisplayCategory(Context context, int layout, List<LoaiMonDTO> loaiMonDTOList){
+    public AdapterDisplayCategory(Context context, int layout, List<LoaiMonModel> loaiMonModelList){
         this.context = context;
         this.layout = layout;
-        this.loaiMonDTOList = loaiMonDTOList;
+        this.loaiMonModelList = loaiMonModelList;
     }
 
     @Override
     public int getCount() {
-        return loaiMonDTOList.size();
+        return loaiMonModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return loaiMonDTOList.get(position);
+        return loaiMonModelList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return loaiMonDTOList.get(position).getMaLoai();
+        return loaiMonModelList.get(position).getMaLoai();
     }
 
     @Override
@@ -68,11 +60,11 @@ public class AdapterDisplayCategory extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        LoaiMonDTO loaiMonDTO = loaiMonDTOList.get(position);
+        LoaiMonModel loaiMonModel = loaiMonModelList.get(position);
 
-        viewHolder.txt_customcategory_TenLoai.setText(loaiMonDTO.getTenLoai());
+        viewHolder.txt_customcategory_TenLoai.setText(loaiMonModel.getTenLoai());
 
-        byte[] categoryimage = loaiMonDTO.getHinhAnh();
+        byte[] categoryimage = loaiMonModel.getHinhAnh();
         Bitmap bitmap = BitmapFactory.decodeByteArray(categoryimage,0,categoryimage.length);
         viewHolder.img_customcategory_HinhLoai.setImageBitmap(bitmap);
 

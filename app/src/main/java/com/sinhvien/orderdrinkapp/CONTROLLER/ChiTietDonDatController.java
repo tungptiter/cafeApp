@@ -1,17 +1,17 @@
-package com.sinhvien.orderdrinkapp.DAO;
+package com.sinhvien.orderdrinkapp.CONTROLLER;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sinhvien.orderdrinkapp.DTO.ChiTietDonDatDTO;
+import com.sinhvien.orderdrinkapp.MODEL.ChiTietDonDatModel;
 import com.sinhvien.orderdrinkapp.Database.CreateDatabase;
 
-public class ChiTietDonDatDAO {
+public class ChiTietDonDatController {
 
     SQLiteDatabase database;
-    public ChiTietDonDatDAO(Context context){
+    public ChiTietDonDatController(Context context){
         CreateDatabase createDatabase = new CreateDatabase(context);
         database = createDatabase.open();
     }
@@ -50,13 +50,13 @@ public class ChiTietDonDatDAO {
             return false;
         }
     }
-    public boolean CapNhatSL(ChiTietDonDatDTO chiTietDonDatDTO){
+    public boolean CapNhatSL(ChiTietDonDatModel chiTietDonDatModel){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG, chiTietDonDatDTO.getSoLuong());
+        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG, chiTietDonDatModel.getSoLuong());
 
         long ktra = database.update(CreateDatabase.TBL_CHITIETDONDAT,contentValues,CreateDatabase.TBL_CHITIETDONDAT_MADONDAT+ " = "
-                +chiTietDonDatDTO.getMaDonDat()+ " AND " +CreateDatabase.TBL_CHITIETDONDAT_MAMON+ " = "
-                +chiTietDonDatDTO.getMaMon(),null);
+                + chiTietDonDatModel.getMaDonDat()+ " AND " +CreateDatabase.TBL_CHITIETDONDAT_MAMON+ " = "
+                + chiTietDonDatModel.getMaMon(),null);
         if(ktra !=0){
             return true;
         }else {
@@ -64,11 +64,11 @@ public class ChiTietDonDatDAO {
         }
     }
 
-    public boolean ThemChiTietDonDat(ChiTietDonDatDTO chiTietDonDatDTO){
+    public boolean ThemChiTietDonDat(ChiTietDonDatModel chiTietDonDatModel){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG,chiTietDonDatDTO.getSoLuong());
-        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_MADONDAT,chiTietDonDatDTO.getMaDonDat());
-        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_MAMON,chiTietDonDatDTO.getMaMon());
+        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_SOLUONG, chiTietDonDatModel.getSoLuong());
+        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_MADONDAT, chiTietDonDatModel.getMaDonDat());
+        contentValues.put(CreateDatabase.TBL_CHITIETDONDAT_MAMON, chiTietDonDatModel.getMaMon());
 
         long ktra = database.insert(CreateDatabase.TBL_CHITIETDONDAT,null,contentValues);
         if(ktra !=0){

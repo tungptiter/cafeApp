@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class ThanhToanDTO {
+public class ThanhToanModel {
     int idMon;
     String TenMon;
     int SoLuong, GiaTien;

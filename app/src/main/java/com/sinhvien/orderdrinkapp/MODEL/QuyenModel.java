@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class QuyenDTO {
+public class QuyenModel {
     int MaQuyen;
     String TenQuyen;
 

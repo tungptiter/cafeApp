@@ -13,30 +13,23 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinhvien.orderdrinkapp.CustomAdapter.AdapterDisplayCategory;
-import com.sinhvien.orderdrinkapp.DAO.LoaiMonDAO;
-import com.sinhvien.orderdrinkapp.DAO.MonDAO;
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
-import com.sinhvien.orderdrinkapp.DTO.MonDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.MonController;
+import com.sinhvien.orderdrinkapp.MODEL.MonModel;
 import com.sinhvien.orderdrinkapp.R;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 
 public class AddMenuActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -47,7 +40,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     TextInputLayout TXTL_addmenu_TenMon,TXTL_addmenu_GiaTien,TXTL_addmenu_LoaiMon;
     RadioGroup RG_addmenu_TinhTrang;
     RadioButton RD_addmenu_ConMon, RD_addmenu_HetMon;
-    MonDAO monDAO;
+    MonController monController;
     String tenloai, sTenMon,sGiaTien,sTinhTrang;
     Bitmap bitmapold;
     int maloai;
@@ -94,7 +87,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = getIntent();
         maloai = intent.getIntExtra("maLoai",-1);
         tenloai = intent.getStringExtra("tenLoai");
-        monDAO = new MonDAO(this);  //khởi tạo đối tượng dao kết nối csdl
+        monController = new MonController(this);  //khởi tạo đối tượng dao kết nối csdl
         TXTL_addmenu_LoaiMon.getEditText().setText(tenloai);
 
         BitmapDrawable olddrawable = (BitmapDrawable)IMG_addmenu_ThemHinh.getDrawable();
@@ -104,17 +97,17 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         mamon = getIntent().getIntExtra("mamon",0);
         if(mamon != 0){
             TXT_addmenu_title.setText("Sửa thực đơn");
-            MonDTO monDTO = monDAO.LayMonTheoMa(mamon);
+            MonModel monModel = monController.LayMonTheoMa(mamon);
 
-            TXTL_addmenu_TenMon.getEditText().setText(monDTO.getTenMon());
-            TXTL_addmenu_GiaTien.getEditText().setText(monDTO.getGiaTien());
+            TXTL_addmenu_TenMon.getEditText().setText(monModel.getTenMon());
+            TXTL_addmenu_GiaTien.getEditText().setText(monModel.getGiaTien());
 
-            byte[] menuimage = monDTO.getHinhAnh();
+            byte[] menuimage = monModel.getHinhAnh();
             Bitmap bitmap = BitmapFactory.decodeByteArray(menuimage,0,menuimage.length);
             IMG_addmenu_ThemHinh.setImageBitmap(bitmap);
 
             layout_trangthaimon.setVisibility(View.VISIBLE);
-            String tinhtrang = monDTO.getTinhTrang();
+            String tinhtrang = monModel.getTinhTrang();
             if(tinhtrang.equals("true")){
                 RD_addmenu_ConMon.setChecked(true);
             }else {
@@ -162,17 +155,17 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                     case R.id.rd_addmenu_HetMon: sTinhTrang = "false";  break;
                 }
 
-                MonDTO monDTO = new MonDTO();
-                monDTO.setMaLoai(maloai);
-                monDTO.setTenMon(sTenMon);
-                monDTO.setGiaTien(sGiaTien);
-                monDTO.setTinhTrang(sTinhTrang);
-                monDTO.setHinhAnh(imageViewtoByte(IMG_addmenu_ThemHinh));
+                MonModel monModel = new MonModel();
+                monModel.setMaLoai(maloai);
+                monModel.setTenMon(sTenMon);
+                monModel.setGiaTien(sGiaTien);
+                monModel.setTinhTrang(sTinhTrang);
+                monModel.setHinhAnh(imageViewtoByte(IMG_addmenu_ThemHinh));
                 if(mamon!= 0){
-                    ktra = monDAO.SuaMon(monDTO,mamon);
+                    ktra = monController.SuaMon(monModel,mamon);
                     chucnang = "suamon";
                 }else {
-                    ktra = monDAO.ThemMon(monDTO);
+                    ktra = monController.ThemMon(monModel);
                     chucnang = "themmon";
                 }
 

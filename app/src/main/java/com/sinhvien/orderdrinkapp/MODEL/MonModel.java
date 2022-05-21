@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class MonDTO {
+public class MonModel {
 
     int MaMon, MaLoai;
     String TenMon,GiaTien,TinhTrang;

@@ -1,6 +1,6 @@
-package com.sinhvien.orderdrinkapp.DTO;
+package com.sinhvien.orderdrinkapp.MODEL;
 
-public class NhanVienDTO {
+public class NhanVienModel {
 
     String HOTENNV,TENDN,MATKHAU,EMAIL,SDT,GIOITINH,NGAYSINH;
     int MANV,MAQUYEN;

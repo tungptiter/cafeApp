@@ -9,14 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-import com.sinhvien.orderdrinkapp.DTO.DonDatDTO;
-import com.sinhvien.orderdrinkapp.DTO.LoaiMonDTO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
+import com.sinhvien.orderdrinkapp.MODEL.DonDatModel;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
 import com.sinhvien.orderdrinkapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -24,17 +21,17 @@ public class AdapterRecycleViewStatistic extends RecyclerView.Adapter<AdapterRec
 
     Context context;
     int layout;
-    List<DonDatDTO> donDatDTOList;
-    NhanVienDAO nhanVienDAO;
-    BanAnDAO banAnDAO;
+    List<DonDatModel> donDatModelList;
+    NhanVienController nhanVienController;
+    BanAnController banAnController;
 
-    public AdapterRecycleViewStatistic(Context context, int layout, List<DonDatDTO> donDatDTOList){
+    public AdapterRecycleViewStatistic(Context context, int layout, List<DonDatModel> donDatModelList){
 
         this.context =context;
         this.layout = layout;
-        this.donDatDTOList = donDatDTOList;
-        nhanVienDAO = new NhanVienDAO(context);
-        banAnDAO = new BanAnDAO(context);
+        this.donDatModelList = donDatModelList;
+        nhanVienController = new NhanVienController(context);
+        banAnController = new BanAnController(context);
     }
 
 
@@ -46,30 +43,30 @@ public class AdapterRecycleViewStatistic extends RecyclerView.Adapter<AdapterRec
 
     @Override
     public void onBindViewHolder(AdapterRecycleViewStatistic.ViewHolder holder, int position) {
-        DonDatDTO donDatDTO = donDatDTOList.get(position);
-        holder.txt_customstatistic_MaDon.setText("Mã đơn: "+donDatDTO.getMaDonDat());
-        holder.txt_customstatistic_NgayDat.setText(donDatDTO.getNgayDat());
-        if(donDatDTO.getTongTien().equals("0"))
+        DonDatModel donDatModel = donDatModelList.get(position);
+        holder.txt_customstatistic_MaDon.setText("Mã đơn: "+ donDatModel.getMaDonDat());
+        holder.txt_customstatistic_NgayDat.setText(donDatModel.getNgayDat());
+        if(donDatModel.getTongTien().equals("0"))
         {
             holder.txt_customstatistic_TongTien.setVisibility(View.INVISIBLE);
         }else {
             holder.txt_customstatistic_TongTien.setVisibility(View.VISIBLE);
         }
 
-        if (donDatDTO.getTinhTrang().equals("true"))
+        if (donDatModel.getTinhTrang().equals("true"))
         {
             holder.txt_customstatistic_TrangThai.setText("Đã thanh toán");
         }else {
             holder.txt_customstatistic_TrangThai.setText("Chưa thanh toán");
         }
-        NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(donDatDTO.getMaNV());
-        holder.txt_customstatistic_TenNV.setText(nhanVienDTO.getHOTENNV());
-        holder.txt_customstatistic_BanDat.setText(banAnDAO.LayTenBanTheoMa(donDatDTO.getMaBan()));
+        NhanVienModel nhanVienModel = nhanVienController.LayNVTheoMa(donDatModel.getMaNV());
+        holder.txt_customstatistic_TenNV.setText(nhanVienModel.getHOTENNV());
+        holder.txt_customstatistic_BanDat.setText(banAnController.LayTenBanTheoMa(donDatModel.getMaBan()));
     }
 
     @Override
     public int getItemCount() {
-        return donDatDTOList.size();
+        return donDatModelList.size();
     }
 
 

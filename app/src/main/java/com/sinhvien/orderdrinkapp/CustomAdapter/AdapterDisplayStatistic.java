@@ -5,17 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sinhvien.orderdrinkapp.DAO.BanAnDAO;
-import com.sinhvien.orderdrinkapp.DAO.NhanVienDAO;
-import com.sinhvien.orderdrinkapp.DTO.BanAnDTO;
-import com.sinhvien.orderdrinkapp.DTO.DonDatDTO;
-import com.sinhvien.orderdrinkapp.DTO.NhanVienDTO;
+import com.sinhvien.orderdrinkapp.CONTROLLER.BanAnController;
+import com.sinhvien.orderdrinkapp.CONTROLLER.NhanVienController;
+import com.sinhvien.orderdrinkapp.MODEL.DonDatModel;
+import com.sinhvien.orderdrinkapp.MODEL.NhanVienModel;
 import com.sinhvien.orderdrinkapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,34 +20,34 @@ public class AdapterDisplayStatistic extends BaseAdapter {
 
     Context context;
     int layout;
-    List<DonDatDTO> donDatDTOS;
-    List<DonDatDTO> donDatDTOSold;
+    List<DonDatModel> donDatModels;
+    List<DonDatModel> donDatModelSold;
     ViewHolder viewHolder;
-    NhanVienDAO nhanVienDAO;
-    BanAnDAO banAnDAO;
+    NhanVienController nhanVienController;
+    BanAnController banAnController;
 
-    public AdapterDisplayStatistic(Context context, int layout, List<DonDatDTO> donDatDTOSold){
+    public AdapterDisplayStatistic(Context context, int layout, List<DonDatModel> donDatModelSold){
         this.context = context;
         this.layout = layout;
-        this.donDatDTOSold = donDatDTOSold;
-        nhanVienDAO = new NhanVienDAO(context);
-        banAnDAO = new BanAnDAO(context);
-        getDonDatThanhCong(donDatDTOSold);
+        this.donDatModelSold = donDatModelSold;
+        nhanVienController = new NhanVienController(context);
+        banAnController = new BanAnController(context);
+        getDonDatThanhCong(donDatModelSold);
     }
 
     @Override
     public int getCount() {
-        return donDatDTOS.size();
+        return donDatModels.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return donDatDTOS.get(position);
+        return donDatModels.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return donDatDTOS.get(position).getMaDonDat();
+        return donDatModels.get(position).getMaDonDat();
     }
 
     @Override
@@ -72,17 +68,17 @@ public class AdapterDisplayStatistic extends BaseAdapter {
         }else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        DonDatDTO donDatDTO = donDatDTOS.get(position);
-        if (donDatDTO.getTinhTrang().equals("true")) {
-            viewHolder.txt_customstatistic_MaDon.setText("Mã đơn: " + donDatDTO.getMaDonDat());
-            viewHolder.txt_customstatistic_NgayDat.setText(donDatDTO.getNgayDat());
-            viewHolder.txt_customstatistic_TongTien.setText(donDatDTO.getTongTien() + " VNĐ");
+        DonDatModel donDatModel = donDatModels.get(position);
+        if (donDatModel.getTinhTrang().equals("true")) {
+            viewHolder.txt_customstatistic_MaDon.setText("Mã đơn: " + donDatModel.getMaDonDat());
+            viewHolder.txt_customstatistic_NgayDat.setText(donDatModel.getNgayDat());
+            viewHolder.txt_customstatistic_TongTien.setText(donDatModel.getTongTien() + " VNĐ");
 
             viewHolder.txt_customstatistic_TrangThai.setText("Đã thanh toán");
 
-            NhanVienDTO nhanVienDTO = nhanVienDAO.LayNVTheoMa(donDatDTO.getMaNV());
-            viewHolder.txt_customstatistic_TenNV.setText(nhanVienDTO.getHOTENNV());
-            viewHolder.txt_customstatistic_BanDat.setText(banAnDAO.LayTenBanTheoMa(donDatDTO.getMaBan()));
+            NhanVienModel nhanVienModel = nhanVienController.LayNVTheoMa(donDatModel.getMaNV());
+            viewHolder.txt_customstatistic_TenNV.setText(nhanVienModel.getHOTENNV());
+            viewHolder.txt_customstatistic_BanDat.setText(banAnController.LayTenBanTheoMa(donDatModel.getMaBan()));
         }
         return view;
     }
@@ -91,12 +87,12 @@ public class AdapterDisplayStatistic extends BaseAdapter {
                 ,txt_customstatistic_TongTien,txt_customstatistic_TrangThai, txt_customstatistic_BanDat;
 
     }
-    private void getDonDatThanhCong(List<DonDatDTO> listoll){
+    private void getDonDatThanhCong(List<DonDatModel> listoll){
 
-        donDatDTOS = new ArrayList<>();
-        for (DonDatDTO datDTO: listoll) {
+        donDatModels = new ArrayList<>();
+        for (DonDatModel datDTO: listoll) {
             if(datDTO.getTinhTrang().equals("true")){
-                donDatDTOS.add(datDTO);
+                donDatModels.add(datDTO);
             }
         }
     }
